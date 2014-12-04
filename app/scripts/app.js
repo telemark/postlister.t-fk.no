@@ -1,17 +1,18 @@
 'use strict';
 
 function formatDate(inDate){
-  return inDate;
+  var parseDate = inDate.toString();
+  return parseDate.slice(6,8) + '.' + parseDate.slice(4,6) + ' ' + parseDate.slice(0,4);
 }
 
 var JournalItem = React.createClass({
   render: function() {
-    var vacancy = this.props.vacancy;
+    var journal = this.props.journal;
     return (
       <li className="vacancyItem">
-        <span className="vacancyTitle"><a href="https://hrm.btvregion.no/tfk_recruitment" target="_blank">{vacancy.SA_OFFTITTEL}</a></span>
+        <span className="vacancyTitle"><a href="https://hrm.btvregion.no/tfk_recruitment" target="_blank">{journal.SA_OFFTITTEL}</a></span>
         <br />
-        <span className="vacancyDateDeadline">Journaldato: {formatDate(vacancy.JOURNPOST_OJ.JP_JDATO)}</span>
+        <span className="vacancyDateDeadline">Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}</span>
       </li>
     );
   }
@@ -19,12 +20,10 @@ var JournalItem = React.createClass({
 
 var JournalsList = React.createClass({
   render: function() {
-    var limitLength = parseInt(this.props.limitLength || 20, 10);
-
     return (
       <ul className="vacanciesList">
-      {this.props.allVacancies.map(function(vacancy){
-        return <JournalItem vacancy={vacancy} key={vacancy.jobid} />;
+      {this.props.allJournals.map(function(journal){
+        return <JournalItem journal={journal} key={journal.sakId} />;
       })}
       </ul>
     );
@@ -33,15 +32,15 @@ var JournalsList = React.createClass({
 
 var JournalsBox = React.createClass({
   getInitialState: function() {
-    return {allVacancies:[]};
+    return {allJournals:[]};
   },
 
   componentDidMount: function() {
     $.get(this.props.source, function(data) {
-      var allVacancies = data;
+      var allJournals = data;
       if (this.isMounted()) {
         this.setState({
-          allVacancies:allVacancies
+          allJournals:allJournals
         });
       }
     }.bind(this));
@@ -50,7 +49,7 @@ var JournalsBox = React.createClass({
   render: function() {
     return (
       <div className="vacanciesBox">
-        <JournalsList allVacancies={this.state.allVacancies} />
+        <JournalsList allJournals={this.state.allJournals} />
       </div>
     );
   }
