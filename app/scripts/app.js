@@ -23,7 +23,7 @@ var JournalsList = React.createClass({
 
     return (
       <ul className="vacanciesList">
-      {this.props.allVacancies.slice(0, limitLength).map(function(vacancy){
+      {this.props.allVacancies.map(function(vacancy){
         return <JournalItem vacancy={vacancy} key={vacancy.jobid} />;
       })}
       </ul>
@@ -38,7 +38,7 @@ var JournalsBox = React.createClass({
 
   componentDidMount: function() {
     $.get(this.props.source, function(data) {
-      var allVacancies = data.results;
+      var allVacancies = data;
       if (this.isMounted()) {
         this.setState({
           allVacancies:allVacancies
@@ -50,7 +50,7 @@ var JournalsBox = React.createClass({
   render: function() {
     return (
       <div className="vacanciesBox">
-        <JournalsList allVacancies={this.state.allVacancies} limitLength="4" />
+        <JournalsList allVacancies={this.state.allVacancies} />
       </div>
     );
   }
