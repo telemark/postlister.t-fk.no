@@ -1,6 +1,10 @@
 'use strict';
 
+//var React = require('react');
+//var $ = require('jquery');
+
 function formatDate(inDate){
+  'use strict';
   var parseDate = inDate.toString();
   return parseDate.slice(6,8) + '.' + parseDate.slice(4,6) + ' ' + parseDate.slice(0,4);
 }
@@ -23,11 +27,11 @@ var JournalItem = React.createClass({
     return (
       <div className="journalItem">
         <span className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</span><br/>
-        Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} Sak: {journal.SA_OFFTITTEL} Til: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
-        Dokumentdato: {formatDate(journal.JOURNPOST_OJ.JP_DOKDATO)} Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}<br/>
-        Dokumentype: {journal.JOURNPOST_OJ.JP_NDOKTYPE} Tilgangskode: {journal.JOURNPOST_OJ.JP_TGKODE}<br />
-        Dokumentansvarlig: {journal.JOURNPOST_OJ.JP_ANSVAVD}<br />
-        Saksansvarlig: {journal.SA_ADMKORT}
+      Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} Sak: {journal.SA_OFFTITTEL} Til: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
+      Dokumentdato: {formatDate(journal.JOURNPOST_OJ.JP_DOKDATO)} Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}<br/>
+      Dokumentype: {journal.JOURNPOST_OJ.JP_NDOKTYPE} Tilgangskode: {journal.JOURNPOST_OJ.JP_TGKODE}<br />
+      Dokumentansvarlig: {journal.JOURNPOST_OJ.JP_ANSVAVD}<br />
+      Saksansvarlig: {journal.SA_ADMKORT}
         <div>
         {journal.JOURNPOST_OJ.JP_DOKUMENTER.map(function(doc){
           return <JournalDocument doc={doc} />;
@@ -74,6 +78,7 @@ var JournalsBox = React.createClass({
     );
   }
 });
+
 
 React.render(
   <JournalsBox source="https://api.t-fk.no/journals" />,
