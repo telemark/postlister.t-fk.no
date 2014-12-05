@@ -5,15 +5,38 @@ function formatDate(inDate){
   return parseDate.slice(6,8) + '.' + parseDate.slice(4,6) + ' ' + parseDate.slice(0,4);
 }
 
+
+
+var JournalDocument = React.createClass({
+  render: function(){
+    var doc = this.props.doc;
+    return (
+      <div>
+        {doc.DOKBESKRIV_OJ.DB_TITTEL}
+      </div>
+
+    );
+  }
+});
+
+
 var JournalItem = React.createClass({
   render: function() {
     var journal = this.props.journal;
     return (
-      <li className="vacancyItem">
-        <span className="vacancyTitle"><a href="https://hrm.btvregion.no/tfk_recruitment" target="_blank">{journal.SA_OFFTITTEL}</a></span>
-        <br />
-        <span className="vacancyDateDeadline">Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}</span>
-      </li>
+      <div className="journalItem">
+        <span className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</span><br/>
+        Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} Sak: {journal.SA_OFFTITTEL} Til: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
+        Dokumentdato: {formatDate(journal.JOURNPOST_OJ.JP_DOKDATO)} Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}<br/>
+        Dokumentype: Tilgangskode: <br />
+        Dokumentansvarlig: {journal.JOURNPOST_OJ.JP_ANSVAVD}<br />
+        Saksansvarlig: {journal.SA_ADMKORT}
+        <div>
+        {journal.JOURNPOST_OJ.JP_DOKUMENTER.map(function(doc){
+          return <JournalDocument doc={doc} />;
+        })}
+        </div>
+      </div>
     );
   }
 });
@@ -21,11 +44,11 @@ var JournalItem = React.createClass({
 var JournalsList = React.createClass({
   render: function() {
     return (
-      <ul className="vacanciesList">
+      <div className="journalsList">
       {this.props.allJournals.map(function(journal){
         return <JournalItem journal={journal} key={journal.sakId} />;
       })}
-      </ul>
+      </div>
     );
   }
 });
@@ -56,6 +79,6 @@ var JournalsBox = React.createClass({
 });
 
 React.render(
-  <JournalsBox source="https://api.t-fk.no/journals" />,
+  <JournalsBox source="http://localhost:9000/journals" />,
   document.getElementById('journals')
 );
