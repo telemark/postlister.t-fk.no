@@ -5,20 +5,17 @@ function formatDate(inDate){
   return parseDate.slice(6,8) + '.' + parseDate.slice(4,6) + ' ' + parseDate.slice(0,4);
 }
 
-
-
 var JournalDocument = React.createClass({
   render: function(){
     var doc = this.props.doc;
     return (
       <div>
-        {doc.DOKBESKRIV_OJ.DB_TITTEL}
+        <a href={doc.DOKBESKRIV_OJ.DOKVERSJON_OJ.VE_FILREF} className="cta--primary">{doc.DOKBESKRIV_OJ.DB_TITTEL}</a>
       </div>
 
     );
   }
 });
-
 
 var JournalItem = React.createClass({
   render: function() {
@@ -79,6 +76,6 @@ var JournalsBox = React.createClass({
 });
 
 React.render(
-  <JournalsBox source="http://localhost:9000/journals" />,
+  <JournalsBox source="https://api.t-fk.no/journals" />,
   document.getElementById('journals')
 );
