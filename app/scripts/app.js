@@ -13,9 +13,9 @@ var JournalDocument = React.createClass({
   render: function(){
     var doc = this.props.doc;
     return (
-      <div>
-        <a href={doc.DOKBESKRIV_OJ.DOKVERSJON_OJ.VE_FILREF} className="cta--primary">{doc.DOKBESKRIV_OJ.DB_TITTEL}</a>
-      </div>
+<div className="journalDocument">
+        <a href={doc.DOKBESKRIV_OJ.DOKVERSJON_OJ.VE_FILREF} className="cta--primary clear">{doc.DOKBESKRIV_OJ.DB_TITTEL}</a>
+</div>
 
     );
   }
@@ -24,19 +24,22 @@ var JournalDocument = React.createClass({
 var JournalItem = React.createClass({
   render: function() {
     var journal = this.props.journal;
+
     return (
-      <div className="journalItem">
+      <div className="journalItem clear">
         <span className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</span><br/>
       Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} Sak: {journal.SA_OFFTITTEL} Til: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
       Dokumentdato: {formatDate(journal.JOURNPOST_OJ.JP_DOKDATO)} Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}<br/>
       Dokumentype: {journal.JOURNPOST_OJ.JP_NDOKTYPE} Tilgangskode: {journal.JOURNPOST_OJ.JP_TGKODE}<br />
       Dokumentansvarlig: {journal.JOURNPOST_OJ.JP_ANSVAVD}<br />
       Saksansvarlig: {journal.SA_ADMKORT}
-        <div>
-        {journal.JOURNPOST_OJ.JP_DOKUMENTER.map(function(doc){
-          return <JournalDocument doc={doc} />;
-        })}
-        </div>
+
+         <div className="journalDocuments">
+         {journal.JOURNPOST_OJ.JP_DOKUMENTER.map(function(doc){
+         return <JournalDocument doc={doc} key={doc.DL_DOKID}/>;
+         })}
+         </div>
+
       </div>
     );
   }
@@ -45,11 +48,11 @@ var JournalItem = React.createClass({
 var JournalsList = React.createClass({
   render: function() {
     return (
-      <div className="journalsList">
+<div className="journalsList">
       {this.props.allJournals.map(function(journal){
-        return <JournalItem journal={journal} key={journal.sakId} />;
+        return <JournalItem journal={journal} key={journal._id} />;
       })}
-      </div>
+</div>
     );
   }
 });
@@ -72,9 +75,9 @@ var JournalsBox = React.createClass({
 
   render: function() {
     return (
-      <div className="vacanciesBox">
-        <JournalsList allJournals={this.state.allJournals} />
-      </div>
+      <div className="journalsBox">
+      <JournalsList allJournals={this.state.allJournals} />
+        </div>
     );
   }
 });
