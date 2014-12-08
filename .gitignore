@@ -36,3 +36,4 @@ node_modules
 # dev
 .sass-cache
 .tmp
+.dist

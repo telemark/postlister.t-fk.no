@@ -84,6 +84,6 @@ var JournalsBox = React.createClass({
 
 
 React.render(
-  <JournalsBox source="https://api.t-fk.no/journals" />,
+  <JournalsBox source="https://api.t-fk.no/journals/latest" />,
   document.getElementById('journals')
 );
