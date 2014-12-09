@@ -76,8 +76,7 @@ var JournalsBox = React.createClass({
   },
 
   handleDateChange: function(moment, datestring){
-    var date = datestring.split('-').join('');
-    console.log(date);
+    var date = moment.format('YYYYMMDD');
     this.getJournalsByDate(date);
   },
 
