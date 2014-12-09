@@ -1,7 +1,9 @@
 'use strict';
 
-//var React = require('react');
-//var $ = require('jquery');
+var React = require('react');
+var $ = require('jquery');
+var DatePicker = require('react-date-picker');
+
 
 function formatDate(inDate){
   'use strict';
@@ -14,7 +16,7 @@ var JournalDocument = React.createClass({
     var doc = this.props.doc;
     return (
 <div className="journalDocument">
-        <a href={doc.DOKBESKRIV_OJ.DOKVERSJON_OJ.VE_FILREF} className="cta--primary clear">{doc.DOKBESKRIV_OJ.DB_TITTEL}</a>
+        <a href={doc.DOKBESKRIV_OJ.DOKVERSJON_OJ.VE_FILREF} className="cta--primary">{doc.DOKBESKRIV_OJ.DB_TITTEL}</a>
 </div>
 
     );
@@ -26,8 +28,8 @@ var JournalItem = React.createClass({
     var journal = this.props.journal;
 
     return (
-      <div className="journalItem clear">
-        <span className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</span><br/>
+      <div className="journalItem">
+        <h2 className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</h2><br/>
       Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} Sak: {journal.SA_OFFTITTEL} Til: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
       Dokumentdato: {formatDate(journal.JOURNPOST_OJ.JP_DOKDATO)} Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}<br/>
       Dokumentype: {journal.JOURNPOST_OJ.JP_NDOKTYPE} Tilgangskode: {journal.JOURNPOST_OJ.JP_TGKODE}<br />
@@ -63,7 +65,7 @@ var JournalsBox = React.createClass({
   },
 
   componentDidMount: function() {
-    $.get(this.props.source, function(data) {
+    $.get(this.props.source + '/journals/latest', function(data) {
       var allJournals = data;
       if (this.isMounted()) {
         this.setState({
@@ -73,9 +75,25 @@ var JournalsBox = React.createClass({
     }.bind(this));
   },
 
+  handleDateChange: function(moment, datestring){
+    var date = datestring.split('-').join('');
+    console.log(date);
+    this.getJournalsByDate(date);
+  },
+
+  getJournalsByDate: function(date) {
+    $.get(this.props.source + '/journals/date/' + date, function(data) {
+      var allJournals = data;
+        this.setState({
+          allJournals:allJournals
+        });
+    }.bind(this));
+  },
+
   render: function() {
     return (
       <div className="journalsBox">
+        <DatePicker minDate='2014-04-04' maxDate='2015-10-10' date={Date.now()} onChange={this.handleDateChange}/>
       <JournalsList allJournals={this.state.allJournals} />
         </div>
     );
@@ -84,6 +102,6 @@ var JournalsBox = React.createClass({
 
 
 React.render(
-  <JournalsBox source="https://api.t-fk.no/journals/latest" />,
+  <JournalsBox source="https://api.t-fk.no" />,
   document.getElementById('journals')
 );

@@ -45,5 +45,8 @@
     "run-sequence": "^0.3.6",
     "vinyl-source-stream": "^1.0.0",
     "vinyl-transform": "^1.0.0"
+  },
+  "dependencies": {
+    "react-date-picker": "^1.2.2"
   }
 }
