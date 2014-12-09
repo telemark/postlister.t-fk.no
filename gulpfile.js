@@ -1,7 +1,7 @@
 /**
  *
  *  Web Starter Kit
- *  Copyright 2014 Google Inc. All rights reserved.
+   *  Copyright 2014 Google Inc. All rights reserved.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ gulp.task('images', function () {
 gulp.task('copy', function () {
   return gulp.src([
     'app/*',
-    '!app/*.html',
+    //'!app/*.html',
     'node_modules/apache-server-configs/dist/.htaccess'
   ], {
     dot: true
@@ -124,7 +124,8 @@ gulp.task('html', function () {
     .pipe($.if('*.css', $.uncss({
       html: [
         'app/index.html',
-        'app/styleguide.html'
+        'app/om.html',
+        'app/personvern.html'
       ],
       // CSS Selectors for UnCSS to ignore
       ignore: [

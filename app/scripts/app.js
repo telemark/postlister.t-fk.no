@@ -16,7 +16,7 @@ var JournalDocument = React.createClass({
     var doc = this.props.doc;
     return (
 <div className="journalDocument">
-        <a href={doc.DOKBESKRIV_OJ.DOKVERSJON_OJ.VE_FILREF} className="cta--primary">{doc.DOKBESKRIV_OJ.DB_TITTEL}</a>
+        <a href={doc.DOKBESKRIV_OJ.DOKVERSJON_OJ.VE_FILURL} className="cta--primary">{doc.DOKBESKRIV_OJ.DB_TITTEL}</a>
 </div>
 
     );
@@ -92,7 +92,7 @@ var JournalsBox = React.createClass({
   render: function() {
     return (
       <div className="journalsBox">
-        <DatePicker minDate='2014-04-04' maxDate='2015-10-10' date={Date.now()} onChange={this.handleDateChange}/>
+        <DatePicker date={Date.now()} onChange={this.handleDateChange}/>
       <JournalsList allJournals={this.state.allJournals} />
         </div>
     );
