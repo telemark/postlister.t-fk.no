@@ -1,0 +1,68 @@
+.date-picker {
+  background-color: #ffffff;
+}
+
+.dp-nav-view {
+  text-align: center;
+}
+
+.date-picker .dp-body .dp-month-view.dp-prev {
+  left: -100%;
+}
+.date-picker .dp-body .dp-month-view.dp-next {
+  left: 100%;
+}
+
+.dp-next-nav {
+  text-align: end;
+  cursor: pointer;
+}
+
+.dp-prev-nav {
+  text-align: start;
+  cursor: pointer;
+}
+
+.dp-day {
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.dp-day:hover {
+  background-color: #e0e0e0;
+}
+
+.dp-current {
+  color: blue;
+}
+
+.date-picker .dp-footer {
+  padding: 3px;
+  justify-content: center;
+  -webkit-justify-content: center;
+  flex-pack: center;
+  -ms-flex-pack: center;
+  border-top-width: 0px;
+}
+.date-picker .dp-footer .dp-footer-selected,
+.date-picker .dp-footer .dp-footer-today {
+  padding: 5px 5px;
+  border-width: 1px;
+  cursor: pointer;
+}
+
+.dp-footer-today {
+  cursor: pointer;
+}
+
+.dp-footer-selected {
+  display: none;
+}
+
+.dp-table td {
+  padding: 5px;
+}
+
+.dp-nav-table td {
+  padding: 5px;
+}

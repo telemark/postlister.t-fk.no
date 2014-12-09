@@ -32,7 +32,8 @@
     "gulp-replace": "^0.4.0",
     "gulp-ruby-sass": "^0.7.1",
     "gulp-size": "^1.0.0",
-    "gulp-uglify": "^0.3.1",
+    "gulp-sourcemaps": "^1.2.8",
+    "gulp-uglify": "^1.0.2",
     "gulp-uncss": "^0.4.5",
     "gulp-useref": "^0.6.0",
     "jquery": "^2.1.1",
@@ -43,6 +44,7 @@
     "reactify": "^0.17.1",
     "require-dir": "^0.1.0",
     "run-sequence": "^0.3.6",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.0.0",
     "vinyl-transform": "^1.0.0"
   },
