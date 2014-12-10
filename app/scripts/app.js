@@ -2,7 +2,6 @@
 
 var React = require('react');
 var $ = require('jquery');
-var DatePicker = require('react-date-picker');
 
 function formatDate(inDate){
   'use strict';
@@ -28,8 +27,10 @@ var JournalItem = React.createClass({
 
     return (
       <div className="journalItem">
-        <h2 className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</h2><br/>
-      Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} Sak: {journal.SA_OFFTITTEL} Til: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
+        <h2 className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</h2>
+      Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} <br />
+      Sak: {journal.SA_OFFTITTEL}<br />
+      Til: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
       Dokumentdato: {formatDate(journal.JOURNPOST_OJ.JP_DOKDATO)} Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}<br/>
       Dokumentype: {journal.JOURNPOST_OJ.JP_NDOKTYPE} Tilgangskode: {journal.JOURNPOST_OJ.JP_TGKODE}<br />
       Dokumentansvarlig: {journal.JOURNPOST_OJ.JP_ANSVAVD}<br />
@@ -108,9 +109,9 @@ var JournalsBox = React.createClass({
   render: function() {
     return (
       <div className="journalsBox">
-
-
-        <select onChange={this.handleDateSelect} >
+<fieldset>
+  <label htmlFor="dateSelector" className="dateSelectorLabel">Velg dato</label>
+        <select onChange={this.handleDateSelect} id="dateSelector">
 {this.state.allDates.map(function(date){
   return (
     <option value={date} key={date} selected="selected">{formatDate(date)}</option>
@@ -118,7 +119,7 @@ var JournalsBox = React.createClass({
 })}
 
         </select>
-
+</fieldset>
       <JournalsList allJournals={this.state.allJournals} />
         </div>
     );
