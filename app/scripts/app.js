@@ -10,24 +10,6 @@ function formatDate(inDate){
   return parseDate.slice(6,8) + '.' + parseDate.slice(4,6) + ' ' + parseDate.slice(0,4);
 }
 
-
-var DateListSelector = React.createClass({
-  render: function(){
-    var dates = this.props.dates;
-
-    return (
-      <select className="dateListSelector">
-      {dates.map(function(date){
-        return (
-          <option value={date} key={date}>{formatDate(date)}</option>
-        )
-      })}
-      </select>
-    )
-
-  }
-});
-
 var JournalDocument = React.createClass({
   render: function(){
     var doc = this.props.doc;
@@ -105,7 +87,8 @@ var JournalsBox = React.createClass({
   },
 
   handleDateSelect: function(e){
-    console.log('mmmmKay');
+    var date = e.target.value;
+    this.getJournalsByDate(date);
   },
 
   handleDateChange: function(moment, datestring){
@@ -126,16 +109,16 @@ var JournalsBox = React.createClass({
     return (
       <div className="journalsBox">
 
+
         <select onChange={this.handleDateSelect} >
 {this.state.allDates.map(function(date){
   return (
-    <option value={date} key={date}>{formatDate(date)}</option>
+    <option value={date} key={date} selected="selected">{formatDate(date)}</option>
   )
 })}
 
-  </select>
+        </select>
 
-        <DatePicker date={Date.now()} onChange={this.handleDateChange}/>
       <JournalsList allJournals={this.state.allJournals} />
         </div>
     );
