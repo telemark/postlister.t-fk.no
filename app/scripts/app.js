@@ -4,12 +4,29 @@ var React = require('react');
 var $ = require('jquery');
 var DatePicker = require('react-date-picker');
 
-
 function formatDate(inDate){
   'use strict';
   var parseDate = inDate.toString();
   return parseDate.slice(6,8) + '.' + parseDate.slice(4,6) + ' ' + parseDate.slice(0,4);
 }
+
+
+var DateListSelector = React.createClass({
+  render: function(){
+    var dates = this.props.dates;
+
+    return (
+      <select className="dateListSelector">
+      {dates.map(function(date){
+        return (
+          <option value={date} key={date}>{formatDate(date)}</option>
+        )
+      })}
+      </select>
+    )
+
+  }
+});
 
 var JournalDocument = React.createClass({
   render: function(){
@@ -61,7 +78,10 @@ var JournalsList = React.createClass({
 
 var JournalsBox = React.createClass({
   getInitialState: function() {
-    return {allJournals:[]};
+    return {
+              allJournals:[],
+              allDates: []
+    };
   },
 
   componentDidMount: function() {
@@ -73,6 +93,19 @@ var JournalsBox = React.createClass({
         });
       }
     }.bind(this));
+
+    $.get(this.props.source + '/journals/date/distinct', function(data) {
+      var allDates = data;
+      if (this.isMounted()) {
+        this.setState({
+          allDates:allDates
+        });
+      }
+    }.bind(this));
+  },
+
+  handleDateSelect: function(e){
+    console.log('mmmmKay');
   },
 
   handleDateChange: function(moment, datestring){
@@ -92,6 +125,16 @@ var JournalsBox = React.createClass({
   render: function() {
     return (
       <div className="journalsBox">
+
+        <select onChange={this.handleDateSelect} >
+{this.state.allDates.map(function(date){
+  return (
+    <option value={date} key={date}>{formatDate(date)}</option>
+  )
+})}
+
+  </select>
+
         <DatePicker date={Date.now()} onChange={this.handleDateChange}/>
       <JournalsList allJournals={this.state.allJournals} />
         </div>
