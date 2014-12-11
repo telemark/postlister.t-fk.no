@@ -9,6 +9,33 @@ function formatDate(inDate){
   return parseDate.slice(6,8) + '.' + parseDate.slice(4,6) + ' ' + parseDate.slice(0,4);
 }
 
+function formatDocType(type){
+  switch(type){
+    case "I":
+      return "Innkommende";
+    case "U":
+      return "Utgående";
+    case "X":
+      return "Notat";
+    case "N":
+      return "Notat";
+    default:
+      return "Ukjent dokumenttype";
+  }
+}
+
+function formatTilFra(type){
+  switch(type){
+    case "I":
+      return "Fra";
+    case "U":
+      return "Til";
+    default:
+      return "Usikker";
+  }
+
+}
+
 var JournalDocument = React.createClass({
   render: function(){
     var doc = this.props.doc;
@@ -30,9 +57,9 @@ var JournalItem = React.createClass({
         <h2 className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</h2>
       Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} <br />
       Sak: {journal.SA_OFFTITTEL}<br />
-      Til: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
+      {formatTilFra(journal.JOURNPOST_OJ.JP_NDOKTYPE)}: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
       Dokumentdato: {formatDate(journal.JOURNPOST_OJ.JP_DOKDATO)} Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}<br/>
-      Dokumentype: {journal.JOURNPOST_OJ.JP_NDOKTYPE} Tilgangskode: {journal.JOURNPOST_OJ.JP_TGKODE}<br />
+      Dokumentype: {formatDocType(journal.JOURNPOST_OJ.JP_NDOKTYPE)} Tilgangskode: {journal.JOURNPOST_OJ.JP_TGKODE}<br />
       Dokumentansvarlig: {journal.JOURNPOST_OJ.JP_ANSVAVD}<br />
       Saksansvarlig: {journal.SA_ADMKORT}
 
@@ -63,7 +90,8 @@ var JournalsBox = React.createClass({
   getInitialState: function() {
     return {
               allJournals:[],
-              allDates: []
+              allDates: [],
+              nowShowing: "sist publiserte"
     };
   },
 
@@ -101,7 +129,8 @@ var JournalsBox = React.createClass({
     $.get(this.props.source + '/journals/date/' + date, function(data) {
       var allJournals = data;
         this.setState({
-          allJournals:allJournals
+          allJournals:allJournals,
+          nowShowing: formatDate(date)
         });
     }.bind(this));
   },
@@ -109,6 +138,7 @@ var JournalsBox = React.createClass({
   render: function() {
     return (
       <div className="journalsBox">
+        <h1>Postlister - {this.state.nowShowing}</h1>
 <fieldset>
   <label htmlFor="dateSelector" className="dateSelectorLabel">Velg dato</label>
         <select onChange={this.handleDateSelect} id="dateSelector">
