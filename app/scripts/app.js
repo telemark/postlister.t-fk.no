@@ -54,7 +54,7 @@ var JournalItem = React.createClass({
 
     return (
       <div className="journalItem">
-        <h2 className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</h2>
+        <h2 className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.SA_OFFTITTEL}</h2>
       Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} <br />
       Sak: {journal.SA_OFFTITTEL}<br />
       {formatTilFra(journal.JOURNPOST_OJ.JP_NDOKTYPE)}: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
