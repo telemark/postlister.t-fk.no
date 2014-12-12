@@ -3,6 +3,15 @@
 var React = require('react');
 var $ = require('jquery');
 
+
+function bestillInnsyn(kode){
+  if(kode === 'Ugradert'){
+    return "hideInnsynsBestilling";
+  } else {
+    return "showInnsynsBestilling";
+  }
+}
+
 function formatDate(inDate){
   'use strict';
   var parseDate = inDate.toString();
@@ -33,8 +42,62 @@ function formatTilFra(type){
     default:
       return "Usikker";
   }
-
 }
+
+function formatTilFraNavn(AVSMOT_OJ){
+  if(AVSMOT_OJ.PNAVN){
+    return AVSMOT_OJ.PNAVN;
+  } else {
+    return AVSMOT_OJ.AM_NAVN;
+  }
+}
+
+
+var JournalOrderForm = React.createClass({
+  getInitialState: function(){
+    return {
+      showOrderForm:'hideOrderForm',
+      buttonTitle: 'Bestill innsyn',
+      innsynBestilt: ''
+    }
+  },
+  buttonHandler: function(e){
+    var newState = this.state.showOrderForm === 'hideOrderForm' ? 'showOrderForm' : 'hideOrderForm';
+    var newTitle = this.state.buttonTitle === 'Avbryt' ? 'Bestill innsyn' : 'Avbryt';
+    this.setState({showOrderForm:newState, buttonTitle: newTitle});
+  },
+  orderHandler: function(e){
+    e.preventDefault();
+    this.setState({showOrderForm:'hideOrderForm', buttonTitle: 'Innsyn bestilt'});
+  },
+  render: function(){
+    return (
+      <div>
+    <button className="button--secondary" onClick={this.buttonHandler}>{this.state.buttonTitle}</button>
+      <div className={this.state.showOrderForm}>
+        <h3>Innsynsbestilling</h3>
+        <form>
+          <input type="hidden" name="journalpost" value={this.props.doknr + ' ' + this.props.doktittel} />
+          <fieldset>
+            <legend>Dokument: {this.props.doknr} {this.props.doktittel}</legend>
+          <label htmlFor="bestillersnavn">Navn: </label>
+            <input type="text" name="bestillersnavn" placeholder="Fullt navn" autoComplete="name" />
+            <label htmlFor="bestillersepost">E-post: </label>
+            <input type="text" name="bestillerepost" placeholder="E-post" autoComplete="email" />
+            <label htmlFor="bestilleradresse">Postadresse: </label>
+            <input type="text" name="bestilleradresse"/>
+          </fieldset>
+        </form>
+          <p>
+            Postadresse fylles kun ut dersom du ønsker å motta dokumentene pr post
+          </p>
+          <button className="button--primary" onClick={this.orderHandler}>Send bestilling</button> <button className="button--secondary" onClick={this.buttonHandler}>Avbryt</button>
+
+      </div>
+        </div>
+    )
+  }
+});
 
 var JournalDocument = React.createClass({
   render: function(){
@@ -54,15 +117,17 @@ var JournalItem = React.createClass({
 
     return (
       <div className="journalItem">
-        <h2 className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.SA_OFFTITTEL}</h2>
+        <h2 className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</h2>
       Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} <br />
       Sak: {journal.SA_OFFTITTEL}<br />
-      {formatTilFra(journal.JOURNPOST_OJ.JP_NDOKTYPE)}: {journal.JOURNPOST_OJ.AVSMOT_OJ.AM_NAVN}<br/>
+      {formatTilFra(journal.JOURNPOST_OJ.JP_NDOKTYPE)}: {formatTilFraNavn(journal.JOURNPOST_OJ.AVSMOT_OJ)}<br/>
       Dokumentdato: {formatDate(journal.JOURNPOST_OJ.JP_DOKDATO)} Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}<br/>
       Dokumentype: {formatDocType(journal.JOURNPOST_OJ.JP_NDOKTYPE)} Tilgangskode: {journal.JOURNPOST_OJ.JP_TGKODE}<br />
       Dokumentansvarlig: {journal.JOURNPOST_OJ.JP_ANSVAVD}<br />
       Saksansvarlig: {journal.SA_ADMKORT}
-
+      <div className={bestillInnsyn(journal.JOURNPOST_OJ.JP_TGKODE)}>
+        <JournalOrderForm doknr={journal.JOURNPOST_OJ.JP_DOKNR} doktittel={journal.JOURNPOST_OJ.JP_OFFINNHOLD} />
+      </div>
          <div className="journalDocuments">
          {journal.JOURNPOST_OJ.JP_DOKUMENTER.map(function(doc){
          return <JournalDocument doc={doc} key={doc.DL_DOKID}/>;
@@ -91,16 +156,19 @@ var JournalsBox = React.createClass({
     return {
               allJournals:[],
               allDates: [],
-              nowShowing: "sist publiserte"
+              nowShowing: "sist publiserte",
+              selectedDate: ''
     };
   },
 
   componentDidMount: function() {
     $.get(this.props.source + '/journals/latest', function(data) {
       var allJournals = data;
+      var selectedDates = data;
       if (this.isMounted()) {
         this.setState({
-          allJournals:allJournals
+          allJournals:allJournals,
+          selectedDate: selectedDates.pop()
         });
       }
     }.bind(this));
@@ -130,7 +198,8 @@ var JournalsBox = React.createClass({
       var allJournals = data;
         this.setState({
           allJournals:allJournals,
-          nowShowing: formatDate(date)
+          nowShowing: formatDate(date),
+          selectedDate: date
         });
     }.bind(this));
   },
