@@ -139,28 +139,41 @@ var JournalsBox = React.createClass({
     return {
               allJournals:[],
               allDates: [],
+              allDepartments: [],
               nowShowing: "sist publiserte",
-              selectedDate: ''
+              selectedDate: '',
+              selectedDepartment: ''
     };
   },
 
   componentDidMount: function() {
     $.get(this.props.source + '/journals/latest', function(data) {
       var allJournals = data;
-      var selectedDates = data;
       if (this.isMounted()) {
         this.setState({
-          allJournals:allJournals,
-          selectedDate: selectedDates.pop()
+          allJournals:allJournals
         });
       }
     }.bind(this));
 
     $.get(this.props.source + '/journals/date/distinct', function(data) {
       var allDates = data;
+      var latestDate = allDates[allDates.length - 1];
       if (this.isMounted()) {
         this.setState({
-          allDates:allDates
+          allDates:allDates,
+          selectedDate: latestDate
+        });
+      }
+    }.bind(this));
+
+    $.get(this.props.source + '/journals/department/distinct', function(data) {
+      var allDepartments = data;
+      allDepartments.sort();
+      allDepartments.unshift('Alle');
+      if (this.isMounted()) {
+        this.setState({
+          allDepartments:allDepartments
         });
       }
     }.bind(this));
@@ -168,22 +181,45 @@ var JournalsBox = React.createClass({
 
   handleDateSelect: function(e){
     var date = e.target.value;
-    this.getJournalsByDate(date);
+    var department = this.state.selectedDepartment;
+    this.setState({
+      selectedDate:date,
+      nowShowing:formatDate(date)
+    });
+    if(department === ''){
+      this.getJournalsByDate(date);
+    } else {
+      this.getJournalsByDepartment(department, date);
+    }
   },
 
-  handleDateChange: function(moment, datestring){
-    var date = moment.format('YYYYMMDD');
-    this.getJournalsByDate(date);
+  handleDepartmentSelect: function(e){
+    var department = e.target.value;
+    var date = this.state.selectedDate;
+    if(department === 'Alle'){
+      this.setState({selectedDepartment:''});
+      this.getJournalsByDate(date);
+    } else {
+      this.setState({selectedDepartment:department});
+      this.getJournalsByDepartment(department, date);
+    }
   },
 
   getJournalsByDate: function(date) {
     $.get(this.props.source + '/journals/date/' + date, function(data) {
       var allJournals = data;
         this.setState({
-          allJournals:allJournals,
-          nowShowing: formatDate(date),
-          selectedDate: date
+          allJournals:allJournals
         });
+    }.bind(this));
+  },
+
+  getJournalsByDepartment: function(department, date) {
+    $.get(this.props.source + '/journals/department/' + department + '?date=' + date, function(data) {
+      var allJournals = data;
+      this.setState({
+        allJournals:allJournals
+      });
     }.bind(this));
   },
 
@@ -201,6 +237,16 @@ var JournalsBox = React.createClass({
 })}
 
         </select>
+
+  <label htmlFor="departmentSelector" className="departmentSelectorLabel">Velg avdeling</label>
+  <select onChange={this.handleDepartmentSelect} id="departmentSelector">
+{this.state.allDepartments.map(function(department){
+  return (
+    <option value={department} key={department}>{department}</option>
+  )
+})}
+
+  </select>
 </fieldset>
       <JournalsList allJournals={this.state.allJournals} />
         </div>

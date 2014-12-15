@@ -30,6 +30,7 @@ var JournalOrderForm = React.createClass({
     };
 
     $.get('http://ws.t-fk.no/mail.php', mail, function(data){
+      console.log(data);
       if(data.results.errorcode === '0'){
         that.setState({showOrderForm:'hideOrderForm', buttonTitle: 'Innsyn bestilt', bestillernavn:'', bestillermail:'', bestilleraddress:''});
       } else {
