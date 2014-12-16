@@ -2,6 +2,7 @@
 
 var React = require('react');
 var $ = require('jquery');
+var encryptPhrase = require('./components/encryptPhrase');
 var JournalOrderForm = require('./components/JournalOrderForm');
 
 function bestillInnsyn(kode){
@@ -76,8 +77,6 @@ function formatTilFraNavn(type, AVSMOT_OJ){
 
   return outString;
 }
-
-
 
 var JournalDocument = React.createClass({
   render: function(){
@@ -189,7 +188,8 @@ var JournalsBox = React.createClass({
     if(department === ''){
       this.getJournalsByDate(date);
     } else {
-      this.getJournalsByDepartment(department, date);
+      var encryptedDepartment = encryptPhrase(department);
+      this.getJournalsByDepartment(encryptedDepartment, date);
     }
   },
 
@@ -200,8 +200,9 @@ var JournalsBox = React.createClass({
       this.setState({selectedDepartment:''});
       this.getJournalsByDate(date);
     } else {
+      var encryptedDepartment = encryptPhrase(department);
       this.setState({selectedDepartment:department});
-      this.getJournalsByDepartment(department, date);
+      this.getJournalsByDepartment(encryptedDepartment, date);
     }
   },
 
@@ -256,6 +257,6 @@ var JournalsBox = React.createClass({
 
 
 React.render(
-  <JournalsBox source="https://api.t-fk.no" />,
+  <JournalsBox source="http://localhost:9000" />,
   document.getElementById('journals')
 );
