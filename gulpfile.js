@@ -60,10 +60,6 @@ gulp.task('jshint', function () {
 // Optimize Images
 gulp.task('images', function () {
   return gulp.src('app/images/**/*')
-    .pipe($.cache($.imagemin({
-      progressive: true,
-      interlaced: true
-    })))
     .pipe(gulp.dest('dist/images'))
     .pipe($.size({title: 'images'}));
 });
@@ -72,7 +68,7 @@ gulp.task('images', function () {
 gulp.task('copy', function () {
   return gulp.src([
     'app/*',
-    //'!app/*.html',
+    '!app/*.html',
     'node_modules/apache-server-configs/dist/.htaccess'
   ], {
     dot: true
@@ -125,6 +121,7 @@ gulp.task('html', function () {
       html: [
         'app/index.html',
         'app/om.html',
+        'app/hjelp.html',
         'app/personvern.html'
       ],
       // CSS Selectors for UnCSS to ignore
@@ -188,8 +185,7 @@ gulp.task('serve', ['styles', 'browserify'], function () {
 
   gulp.watch(['app/**/*.html'], reload);
   gulp.watch(['app/styles/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['app/scripts/**/*.js'], ['jshint', 'browserify']);
-  gulp.watch(['app/scripts/**/*.js'], reload);
+  gulp.watch(['app/scripts/**/*.js'], ['browserify', reload]);
   gulp.watch(['app/images/**/*'], reload);
 });
 
@@ -207,7 +203,7 @@ gulp.task('serve:dist', ['default'], function () {
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], function (cb) {
-  runSequence('styles', ['jshint', 'browserify', 'html', 'images', 'fonts', 'copy'], cb);
+  runSequence('styles', ['browserify', 'html', 'images', 'fonts', 'copy'], cb);
 });
 
 // Run PageSpeed Insights
