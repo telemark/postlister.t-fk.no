@@ -257,6 +257,6 @@ var JournalsBox = React.createClass({
 
 
 React.render(
-  <JournalsBox source="http://localhost:9000" />,
+  <JournalsBox source="https://api.t-fk.no" />,
   document.getElementById('journals')
 );
