@@ -29,7 +29,7 @@ var JournalOrderForm = React.createClass({
       content: this.state.bestillernavn + '\n'+ this.state.bestilleraddress
     };
 
-    $.get('http://ws.t-fk.no/mail.php', mail, function(data){
+    $.get('https://app.t-fk.no/mail.php', mail, function(data){
       console.log(data);
       if(data.results.errorcode === '0'){
         that.setState({showOrderForm:'hideOrderForm', buttonTitle: 'Anmodning om innsyn sendt', bestillernavn:'', bestillermail:'', bestilleraddress:''});
