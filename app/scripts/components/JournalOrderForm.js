@@ -7,7 +7,7 @@ var JournalOrderForm = React.createClass({
   getInitialState: function(){
     return {
       showOrderForm:'hideOrderForm',
-      buttonTitle: 'Bestill innsyn',
+      buttonTitle: 'Anmod om innsyn',
       innsynBestilt: '',
       bestillernavn:'',
       bestillermail:'',
@@ -17,14 +17,14 @@ var JournalOrderForm = React.createClass({
   },
   buttonHandler: function(e){
     var newState = this.state.showOrderForm === 'hideOrderForm' ? 'showOrderForm' : 'hideOrderForm';
-    var newTitle = this.state.buttonTitle === 'Avbryt' ? 'Bestill innsyn' : 'Avbryt';
+    var newTitle = this.state.buttonTitle === 'Avbryt' ? 'Anmod om innsyn' : 'Avbryt';
     this.setState({showOrderForm:newState, buttonTitle: newTitle});
   },
   orderHandler: function(e){
     e.preventDefault();
     var that = this;
     var mail = {
-      subject:'Innsynsbestilling: ' + this.props.doknr + ' ' + this.props.doktittel,
+      subject:'Anmoding om innsyn: ' + this.props.doknr + ' ' + this.props.doktittel,
       from: this.state.bestillermail,
       content: this.state.bestillernavn + '\n'+ this.state.bestilleraddress
     };
@@ -32,10 +32,10 @@ var JournalOrderForm = React.createClass({
     $.get('http://ws.t-fk.no/mail.php', mail, function(data){
       console.log(data);
       if(data.results.errorcode === '0'){
-        that.setState({showOrderForm:'hideOrderForm', buttonTitle: 'Innsyn bestilt', bestillernavn:'', bestillermail:'', bestilleraddress:''});
+        that.setState({showOrderForm:'hideOrderForm', buttonTitle: 'Anmodning om innsyn sendt', bestillernavn:'', bestillermail:'', bestilleraddress:''});
       } else {
         var errormsg = 'Noe gikk galt, vennligst kontakt arkivet på <a href="mailto:post.arkiv@t-fk.no">post.arkiv@t-fk.no</a>';
-        that.setState({showOrderForm:'hideOrderForm', buttonTitle: 'Bestill innsyn', errormsg: errormsg});
+        that.setState({showOrderForm:'hideOrderForm', buttonTitle: 'Anmod om innsyn', errormsg: errormsg});
       }
     });
 
@@ -54,7 +54,7 @@ var JournalOrderForm = React.createClass({
       <div>
         <button className="button--secondary" onClick={this.buttonHandler}>{this.state.buttonTitle}</button><span className="orderFormError">{this.state.errormsg}</span>
         <div className={this.state.showOrderForm}>
-          <h3>Innsynsbestilling</h3>
+          <h3>Anmodning om innsyn</h3>
           <form onSubmit={this.orderHandler}>
             <fieldset>
               <legend>Dokument: {this.props.doknr} {this.props.doktittel}</legend>
@@ -69,7 +69,7 @@ var JournalOrderForm = React.createClass({
           <p>
           Postadresse fylles kun ut dersom du ønsker å motta dokumentene pr post
           </p>
-          <button className="button--primary" onClick={this.orderHandler}>Send bestilling</button> <button className="button--secondary" onClick={this.buttonHandler}>Avbryt</button>
+          <button className="button--primary" onClick={this.orderHandler}>Send anmoding</button> <button className="button--secondary" onClick={this.buttonHandler}>Avbryt</button>
 
         </div>
       </div>
