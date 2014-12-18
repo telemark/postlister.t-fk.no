@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Beskrivelse av postlisteløsningen far Telemark fylkeskommune.">
+    <meta name="description" content="Beskrivelse av postlisteløsningen fra Telemark fylkeskommune.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Postlister Telemark fylkeskommune - Om</title>
 
@@ -59,6 +59,37 @@
     Videre i Forskrift om offentlige arkiv, er det beskrevet at man på en enkel måte skal hente ut og tilgjengeliggjøre den offentlige journalen for allmennheten.
 
     <h1>Om løsningen</h1>
+    Dette er en egenutviklet løsning fra Telemark fylkeskommune.<br/>
+    Den består av tre deler som alle er fritt tilgjengelig fra <a href="https://github.com/telemark" target="_blank">GitHub</a><br/>
+    <ol>
+        <li>
+            <div>
+                <a href="https://github.com/telemark/si-import-openjournal" target="_blank">si-import-openjournal</a>
+            </div>
+            <div>
+                Script som importerer journalpostene fra Public 360 til MongoDB
+            </div>
+        </li>
+        <li>
+            <div>
+                <a href="https://github.com/telemark/api.t-fk.no" target="_blank">api.t-fk.no</a>
+            </div>
+            <div>
+                API serveren som publiserer alle de åpne webservicene våre på <a href="https://api.t-fk.no/" target="_blank">https://api.t-fk.no/</a><br/>
+                Basert på <a href="http://www.mongodb.org/" target="_blank">MongoDB</a>, <a href="http://nodejs.org/" target="_blank">Node.js</a> og
+                <a href="http://hapijs.com/" target="_blank">hapi</a>
+            </div>
+        </li>
+        <li>
+            <div>
+                <a href="https://github.com/telemark/postlister.t-fk.no" target="_blank">postlister.t-fk.no</a>
+            </div>
+            <div>
+                Nettstedet du er på nå. Basert på <a href="https://developers.google.com/web/starter-kit/" target="_blank">Web Starter Kit</a>,
+                <a href="http://facebook.github.io/react/" target="_blank">React</a> og <a href="http://browserify.org/" target="_blank">Browserify</a>.
+            </div>
+        </li>
+    </ol>
 
 
 </main>
