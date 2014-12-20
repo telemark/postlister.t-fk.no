@@ -103,7 +103,7 @@ var JournalItem = React.createClass({
       <span dangerouslySetInnerHTML={formatTilFraNavn(journal.JOURNPOST_OJ.JP_NDOKTYPE, journal.JOURNPOST_OJ.AVSMOT_OJ)} />
       Dokumentdato: {formatDate(journal.JOURNPOST_OJ.JP_DOKDATO)}<br/>
       Journaldato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)}<br/>
-      Dokumentype: {formatDocType(journal.JOURNPOST_OJ.JP_NDOKTYPE)}<br/>
+      Dokumenttype: {formatDocType(journal.JOURNPOST_OJ.JP_NDOKTYPE)}<br/>
       Tilgangskode: {journal.JOURNPOST_OJ.JP_TGKODE}<br />
       Dokumentansvarlig: {journal.JOURNPOST_OJ.JP_ANSVAVD}<br />
       Saksansvarlig: {journal.SA_ADMKORT}
