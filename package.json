@@ -49,7 +49,6 @@
     "vinyl-transform": "^1.0.0"
   },
   "dependencies": {
-    "react-date-picker": "^1.2.2",
     "util-api-cipher": "git+ssh://git@github.com/telemark/util-api-cipher.git"
   }
 }
