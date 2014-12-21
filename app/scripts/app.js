@@ -2,7 +2,7 @@
 
 var React = require('react');
 var $ = require('jquery');
-var encryptPhrase = require('./components/encryptPhrase');
+var cipher = require('util-api-cipher');
 var JournalOrderForm = require('./components/JournalOrderForm');
 
 function bestillInnsyn(kode){
@@ -188,7 +188,7 @@ var JournalsBox = React.createClass({
     if(department === ''){
       this.getJournalsByDate(date);
     } else {
-      var encryptedDepartment = encryptPhrase(department);
+      var encryptedDepartment = cipher.encrypt(department);
       this.getJournalsByDepartment(encryptedDepartment, date);
     }
   },
@@ -200,7 +200,7 @@ var JournalsBox = React.createClass({
       this.setState({selectedDepartment:''});
       this.getJournalsByDate(date);
     } else {
-      var encryptedDepartment = encryptPhrase(department);
+      var encryptedDepartment = cipher.encrypt(department);
       this.setState({selectedDepartment:department});
       this.getJournalsByDepartment(encryptedDepartment, date);
     }
@@ -254,7 +254,6 @@ var JournalsBox = React.createClass({
     );
   }
 });
-
 
 React.render(
   <JournalsBox source="https://api.t-fk.no" />,
