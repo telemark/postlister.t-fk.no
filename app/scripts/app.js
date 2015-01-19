@@ -4,6 +4,7 @@ var React = require('react');
 var $ = require('jquery');
 var cipher = require('util-api-cipher');
 var JournalOrderForm = require('./components/JournalOrderForm');
+var getArchiveCodes = require('./components/getArchiveCodes');
 
 function bestillInnsyn(kode){
   if(kode === 'Ugradert'){
@@ -91,6 +92,7 @@ var JournalItem = React.createClass({
       Dokumentnummer: {journal.JOURNPOST_OJ.JP_DOKNR}<br/>
       Dokumenttype: {formatDocType(journal.JOURNPOST_OJ.JP_NDOKTYPE)}<br/>
       Tilgangskode: {journal.JOURNPOST_OJ.JP_TGKODE}<br />
+        <span dangerouslySetInnerHTML={{__html: getArchiveCodes(journal.KLASSERING_OJ)}} />
       Dokumentansvarlig: {journal.JOURNPOST_OJ.JP_ANSVAVD}<br />
       Saksansvarlig: {journal.SA_ADMKORT}
       <div className={bestillInnsyn(journal.JOURNPOST_OJ.JP_TGKODE)}>
