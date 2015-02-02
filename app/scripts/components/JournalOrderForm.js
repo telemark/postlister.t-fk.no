@@ -13,8 +13,10 @@ var JournalOrderForm = React.createClass({
       bestillermail:'',
       bestillertelefon:'',
       bestillerorganisasjon:'',
-      bestillerland:'',
+      bestillerland:'Norge',
       bestilleraddress:'',
+      bestillerzipcode:'',
+      bestillercity:'',
       errormsg:''
     }
   },
@@ -33,16 +35,37 @@ var JournalOrderForm = React.createClass({
       telefon: this.state.bestillertelefon,
       epost: this.state.bestillermail,
       adresse: this.state.bestilleraddress,
-      journalid: this.props.journalid
+      postnr: this.state.bestillerzipcode,
+      poststed: this.state.bestillercity,
+      enhet: this.props.journal.JOURNPOST_OJ.JP_ANSVAVD,
+      saksnr: this.props.journal.SA_SAKNR,
+      dokumentnr: this.props.journal.JOURNPOST_OJ.JP_POSTNR,
+      journalnr: this.props.journal.JOURNPOST_OJ.JP_SEKNR + '/' + this.props.journal.JOURNPOST_OJ.JP_DOKDATO.toString().substr(2,2)
     };
 
+    console.log(payload);
     $.get('https://app.t-fk.no/innsyn.php', payload, function(data){
       console.log(data);
       if(data.results.errorcode === '0'){
-        that.setState({showOrderForm:'hideOrderForm', buttonTitle: 'Anmodning om innsyn sendt', bestillernavn:'', bestillermail:'', bestillertelefon:'', bestillerorganisasjon:'', bestillerland:'', bestilleraddress:''});
+        that.setState({
+          showOrderForm:'hideOrderForm',
+          buttonTitle: 'Anmodning om innsyn sendt',
+          bestillernavn:'',
+          bestillermail:'',
+          bestillertelefon:'',
+          bestillerorganisasjon:'',
+          bestillerland:'',
+          bestilleraddress:'',
+          bestillerzipcode:'',
+          bestillercity:''
+        });
       } else {
         var errormsg = 'Noe gikk galt, vennligst kontakt arkivet på <a href="mailto:post.arkiv@t-fk.no">post.arkiv@t-fk.no</a>';
-        that.setState({showOrderForm:'hideOrderForm', buttonTitle: 'Anmod om innsyn', errormsg: errormsg});
+        that.setState({
+          showOrderForm:'hideOrderForm',
+          buttonTitle: 'Anmod om innsyn',
+          errormsg: errormsg
+        });
       }
     });
 
@@ -65,6 +88,12 @@ var JournalOrderForm = React.createClass({
   changeHandlerAddress: function(e){
     this.setState({bestilleraddress : e.target.value});
   },
+  changeHandlerZipcode: function(e){
+    this.setState({bestillerzipcode : e.target.value});
+  },
+  changeHandlerCity: function(e){
+    this.setState({bestillercity : e.target.value});
+  },
   render: function(){
     return (
       <div>
@@ -73,7 +102,7 @@ var JournalOrderForm = React.createClass({
           <h3>Anmodning om innsyn</h3>
           <form onSubmit={this.orderHandler}>
             <fieldset>
-              <legend>Dokument: {this.props.doknr} {this.props.doktittel}</legend>
+              <legend>Dokument: {this.props.journal.JOURNPOST_OJ.JP_DOKNR} {this.props.journal.JOURNPOST_OJ.JP_OFFINNHOLD}</legend>
               <label htmlFor="bestillernavn">Navn: </label>
               <input type="text" name="bestillernavn" placeholder="Fullt navn" autoComplete="name" onChange={this.changeHandlerName} />
               <label htmlFor="bestilleorganisasjon">Organisasjon: </label>
@@ -84,13 +113,17 @@ var JournalOrderForm = React.createClass({
               <input type="text" name="bestillermail" placeholder="E-post" autoComplete="email" onChange={this.changeHandlerMail} />
               <label htmlFor="bestillertelefon">Telefon: </label>
               <input type="text" name="bestillertelefon" placeholder="Telefon" autoComplete="phone" onChange={this.changeHandlerPhone} />
+              <p>
+                Feltene for postadresse fylles kun ut dersom du ønsker å motta dokumentene pr post
+              </p>
               <label htmlFor="bestilleraddress">Postadresse: </label>
               <input type="text" name="bestilleraddress" placeholder="Postadresse" autoComplete="address" onChange={this.changeHandlerAddress} />
+              <label htmlFor="bestillerzipcode">Postnummer: </label>
+              <input type="text" name="bestillerzipcode" placeholder="Postnummer" autoComplete="zipcode" onChange={this.changeHandlerZipcode} />
+              <label htmlFor="bestillercity">Poststed: </label>
+              <input type="text" name="bestillercity" placeholder="Poststed" autoComplete="city" onChange={this.changeHandlerCity} />
             </fieldset>
           </form>
-          <p>
-          Postadresse fylles kun ut dersom du ønsker å motta dokumentene pr post
-          </p>
           <button className="button--primary" onClick={this.orderHandler}>Send anmoding</button> <button className="button--secondary" onClick={this.buttonHandler}>Avbryt</button>
 
         </div>
