@@ -39,10 +39,11 @@ var JournalOrderForm = React.createClass({
       poststed: this.state.bestillercity,
       enhet: this.props.journal.JOURNPOST_OJ.JP_ANSVAVD,
       saksnr: this.props.journal.SA_SAKNR,
-      dokumentnr: this.props.journal.JOURNPOST_OJ.JP_POSTNR,
+      dokumentnr: this.props.journal.JOURNPOST_OJ.JP_DOKNR.split('-')[1],
       journalnr: this.props.journal.JOURNPOST_OJ.JP_SEKNR + '/' + this.props.journal.JOURNPOST_OJ.JP_DOKDATO.toString().substr(2,2)
     };
 
+    console.log(payload);
     $.get('https://app.t-fk.no/innsyn.php', payload, function(data){
       if(data.results.errorcode === '0'){
         that.setState({
