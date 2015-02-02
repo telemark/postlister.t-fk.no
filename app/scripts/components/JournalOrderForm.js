@@ -43,7 +43,6 @@ var JournalOrderForm = React.createClass({
       journalnr: this.props.journal.JOURNPOST_OJ.JP_SEKNR + '/' + this.props.journal.JOURNPOST_OJ.JP_DOKDATO.toString().substr(2,2)
     };
 
-    console.log(payload);
     $.get('https://app.t-fk.no/innsyn.php', payload, function(data){
       if(data.results.errorcode === '0'){
         that.setState({
