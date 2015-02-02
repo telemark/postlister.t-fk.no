@@ -96,7 +96,7 @@ var JournalItem = React.createClass({
       Dokumentansvarlig: {journal.JOURNPOST_OJ.JP_ANSVAVD}<br />
       Saksansvarlig: {journal.SA_ADMKORT}
       <div className={bestillInnsyn(journal.JOURNPOST_OJ.JP_TGKODE)}>
-        <JournalOrderForm doknr={journal.JOURNPOST_OJ.JP_DOKNR} doktittel={journal.JOURNPOST_OJ.JP_OFFINNHOLD} />
+        <JournalOrderForm journalnr={journal.JOURNPOST_OJ.JP_DOKNR} journaltittel={journal.JOURNPOST_OJ.JP_OFFINNHOLD} journalid={journal._id} />
       </div>
          <div className="journalDocuments">
          {journal.JOURNPOST_OJ.JP_DOKUMENTER.map(function(doc){
