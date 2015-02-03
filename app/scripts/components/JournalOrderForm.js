@@ -40,7 +40,7 @@ var JournalOrderForm = React.createClass({
       enhet: this.props.journal.JOURNPOST_OJ.JP_ANSVAVD,
       saksnr: this.props.journal.SA_SAKNR,
       dokumentnr: this.props.journal.JOURNPOST_OJ.JP_DOKNR.split('-')[1],
-      journalnr: this.props.journal.JOURNPOST_OJ.JP_SEKNR + '/' + this.props.journal.JOURNPOST_OJ.JP_DOKDATO.toString().substr(2,2)
+      journalnr: this.props.journal.JOURNPOST_OJ.JP_SEKNR + '/' + this.props.journal.JOURNPOST_OJ.JP_JDATO.toString().substr(2,2)
     };
 
     $.get('https://app.t-fk.no/innsyn.php', payload, function(data){
