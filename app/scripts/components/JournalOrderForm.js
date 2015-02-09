@@ -4,6 +4,7 @@ var React = require('react');
 var $ = require('jquery');
 
 var JournalOrderForm = React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
   getInitialState: function(){
     return {
       showOrderForm:'hideOrderForm',
@@ -68,30 +69,6 @@ var JournalOrderForm = React.createClass({
     });
 
   },
-  changeHandlerName: function(e){
-    this.setState({bestillernavn : e.target.value});
-  },
-  changeHandlerMail: function(e){
-    this.setState({bestillermail : e.target.value});
-  },
-  changeHandlerPhone: function(e){
-    this.setState({bestillertelefon : e.target.value});
-  },
-  changeHandlerOrganization: function(e){
-    this.setState({bestillerorganisasjon : e.target.value});
-  },
-  changeHandlerCountry: function(e){
-    this.setState({bestillerland : e.target.value});
-  },
-  changeHandlerAddress: function(e){
-    this.setState({bestilleraddress : e.target.value});
-  },
-  changeHandlerZipcode: function(e){
-    this.setState({bestillerzipcode : e.target.value});
-  },
-  changeHandlerCity: function(e){
-    this.setState({bestillercity : e.target.value});
-  },
   render: function(){
     return (
       <div>
@@ -102,24 +79,24 @@ var JournalOrderForm = React.createClass({
             <fieldset>
               <legend>Dokument: {this.props.journal.JOURNPOST_OJ.JP_DOKNR} {this.props.journal.JOURNPOST_OJ.JP_OFFINNHOLD}</legend>
               <label htmlFor="bestillernavn">Navn: </label>
-              <input type="text" name="bestillernavn" placeholder="Fullt navn" autoComplete="name" onChange={this.changeHandlerName} />
+              <input type="text" name="bestillernavn" placeholder="Fullt navn" autoComplete="name" valueLink={this.linkState('bestillernavn')} />
               <label htmlFor="bestilleorganisasjon">Organisasjon: </label>
-              <input type="text" name="bestillerorganisasjon" placeholder="Organisasjon" autoComplete="organization" onChange={this.changeHandlerOrganization} />
+              <input type="text" name="bestillerorganisasjon" placeholder="Organisasjon" autoComplete="organization" valueLink={this.linkState('bestillerorganisasjon')} />
               <label htmlFor="bestilleorland">Land: </label>
-              <input type="text" name="bestillerland" placeholder="Land" autoComplete="country" onChange={this.changeHandlerCountry} />
+              <input type="text" name="bestillerland" placeholder="Land" autoComplete="country" valueLink={this.linkState('bestillerland')} />
               <label htmlFor="bestillermail">E-post: </label>
-              <input type="text" name="bestillermail" placeholder="E-post" autoComplete="email" onChange={this.changeHandlerMail} />
+              <input type="text" name="bestillermail" placeholder="E-post" autoComplete="email" valueLink={this.linkState('bestillermail')} />
               <label htmlFor="bestillertelefon">Telefon: </label>
-              <input type="text" name="bestillertelefon" placeholder="Telefon" autoComplete="phone" onChange={this.changeHandlerPhone} />
+              <input type="text" name="bestillertelefon" placeholder="Telefon" autoComplete="phone" valueLink={this.linkState('bestillertelefon')} />
               <p>
                 Feltene for postadresse fylles kun ut dersom du ønsker å motta dokumentene pr post
               </p>
               <label htmlFor="bestilleraddress">Postadresse: </label>
-              <input type="text" name="bestilleraddress" placeholder="Postadresse" autoComplete="address" onChange={this.changeHandlerAddress} />
+              <input type="text" name="bestilleraddress" placeholder="Postadresse" autoComplete="address" valueLink={this.linkState('bestilleraddress')} />
               <label htmlFor="bestillerzipcode">Postnummer: </label>
-              <input type="text" name="bestillerzipcode" placeholder="Postnummer" autoComplete="zipcode" onChange={this.changeHandlerZipcode} />
+              <input type="text" name="bestillerzipcode" placeholder="Postnummer" autoComplete="zipcode" valueLink={this.linkState('bestillerzipcode')} />
               <label htmlFor="bestillercity">Poststed: </label>
-              <input type="text" name="bestillercity" placeholder="Poststed" autoComplete="city" onChange={this.changeHandlerCity} />
+              <input type="text" name="bestillercity" placeholder="Poststed" autoComplete="city" valueLink={this.linkState('bestillercity')} />
             </fieldset>
           </form>
           <button className="button--primary" onClick={this.orderHandler}>Send anmoding</button> <button className="button--secondary" onClick={this.buttonHandler}>Avbryt</button>
