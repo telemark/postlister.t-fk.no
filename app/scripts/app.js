@@ -5,6 +5,7 @@ var $ = require('jquery');
 var cipher = require('util-api-cipher');
 var JournalOrderForm = require('./components/JournalOrderForm');
 var getArchiveCodes = require('./components/getArchiveCodes');
+var SearchBar = require('./components/SearchBar');
 
 function bestillInnsyn(kode){
   if(kode === 'Ugradert'){
@@ -128,7 +129,8 @@ var JournalsBox = React.createClass({
               allDepartments: [],
               nowShowing: "sist publiserte",
               selectedDate: '',
-              selectedDepartment: ''
+              selectedDepartment: '',
+              searchText: ''
     };
   },
 
@@ -193,6 +195,15 @@ var JournalsBox = React.createClass({
     }
   },
 
+  handleSearch: function(queryString){
+    this.setState({
+      searchText: queryString
+    });
+    if(queryString.length >= 3){
+      this.searchJournals(queryString);
+    }
+  },
+
   getJournalsByDate: function(date) {
     $.get(this.props.source + '/journals/date/' + date, function(data) {
       var allJournals = data;
@@ -204,6 +215,15 @@ var JournalsBox = React.createClass({
 
   getJournalsByDepartment: function(department, date) {
     $.get(this.props.source + '/journals/department/' + department + '?date=' + date, function(data) {
+      var allJournals = data;
+      this.setState({
+        allJournals:allJournals
+      });
+    }.bind(this));
+  },
+
+  searchJournals: function(queryString) {
+    $.get(this.props.source + '/journals/' + queryString, function(data) {
       var allJournals = data;
       this.setState({
         allJournals:allJournals
@@ -236,6 +256,10 @@ var JournalsBox = React.createClass({
 
   </select>
 </fieldset>
+        <SearchBar
+          searchText={this.state.searchText}
+          onUserInput={this.handleSearch}
+        />
       <JournalsList allJournals={this.state.allJournals} />
         </div>
     );
