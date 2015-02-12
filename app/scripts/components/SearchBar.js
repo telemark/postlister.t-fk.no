@@ -10,16 +10,18 @@ var SearchBar = React.createClass({
   },
   render: function() {
     return (
+      <div className="SearchBar">
       <form>
         <input
           type="text"
-          placeholder="Søk..."
+          placeholder="Søk... du må bruke minst 3 tegn"
           value={this.props.searchText}
           ref="searchTextInput"
           onChange={this.handleChange}
-          className="u-full-width"
+          id="SearchBarInput"
         />
       </form>
+        </div>
     );
   }
 });

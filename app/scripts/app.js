@@ -199,8 +199,18 @@ var JournalsBox = React.createClass({
     this.setState({
       searchText: queryString
     });
-    if(queryString.length >= 3){
+    if (queryString.length >= 3) {
       this.searchJournals(queryString);
+    } else if (queryString.length == 0) {
+      var date = this.state.selectedDate;
+      var department = this.state.selectedDepartment;
+      if(department === 'Alle' || department === ''){
+        this.getJournalsByDate(date);
+      } else {
+        var encryptedDepartment = cipher.encrypt(department);
+        this.setState({selectedDepartment:department});
+        this.getJournalsByDepartment(encryptedDepartment, date);
+      }
     }
   },
 
@@ -235,6 +245,10 @@ var JournalsBox = React.createClass({
     return (
       <div className="journalsBox">
         <h1>Postlister - {this.state.nowShowing}</h1>
+        <SearchBar
+          searchText={this.state.searchText}
+          onUserInput={this.handleSearch}
+        />
 <fieldset>
   <label htmlFor="dateSelector" className="dateSelectorLabel">Velg dato</label>
         <select onChange={this.handleDateSelect} id="dateSelector">
@@ -256,10 +270,6 @@ var JournalsBox = React.createClass({
 
   </select>
 </fieldset>
-        <SearchBar
-          searchText={this.state.searchText}
-          onUserInput={this.handleSearch}
-        />
       <JournalsList allJournals={this.state.allJournals} />
         </div>
     );
