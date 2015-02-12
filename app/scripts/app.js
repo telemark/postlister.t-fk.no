@@ -83,7 +83,6 @@ var JournalItem = React.createClass({
     return (
       <div className="journalItem">
         <h2 className="large">{journal.JOURNPOST_OJ.JP_DOKNR} {journal.JOURNPOST_OJ.JP_OFFINNHOLD}</h2>
-      Dato: {formatDate(journal.JOURNPOST_OJ.JP_JDATO)} <br />
       Sak: {journal.SA_OFFTITTEL}<br />
         Saksnummer: {journal.SA_SAKNR}<br />
       <span dangerouslySetInnerHTML={{__html: formatTilFraNavn(journal.JOURNPOST_OJ.JP_NDOKTYPE, journal.JOURNPOST_OJ.AVSMOT_OJ)}} />
