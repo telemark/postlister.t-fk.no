@@ -195,10 +195,13 @@ var JournalsBox = React.createClass({
     }
   },
 
-  handleSearch: function(queryString){
+  handleSearchInput: function(queryString){
     this.setState({
       searchText: queryString
     });
+  },
+
+  handleSearch: function(queryString){
     if (queryString.length >= 3) {
       this.searchJournals(queryString);
     } else if (queryString.length == 0) {
@@ -247,7 +250,8 @@ var JournalsBox = React.createClass({
         <h1>Postlister - {this.state.nowShowing}</h1>
         <SearchBar
           searchText={this.state.searchText}
-          onUserInput={this.handleSearch}
+          onUserInput={this.handleSearchInput}
+          onUserSubmit={this.handleSearch}
         />
 <fieldset>
   <label htmlFor="dateSelector" className="dateSelectorLabel">Velg dato</label>

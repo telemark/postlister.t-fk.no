@@ -3,18 +3,24 @@
 var React = require('react');
 
 var SearchBar = React.createClass({
-  handleChange: function() {
+  handleChange: function(e) {
     this.props.onUserInput(
+      this.refs.searchTextInput.getDOMNode().value
+    );
+  },
+  handleSearch: function(e) {
+    e.preventDefault();
+    this.props.onUserSubmit(
       this.refs.searchTextInput.getDOMNode().value
     );
   },
   render: function() {
     return (
       <div className="SearchBar">
-      <form>
+      <form onSubmit={this.handleSearch}>
         <input
           type="text"
-          placeholder="Søk... du må bruke minst 3 tegn"
+          placeholder="Søk... skriv søkefrase og avslutt med [Enter]"
           value={this.props.searchText}
           ref="searchTextInput"
           onChange={this.handleChange}
