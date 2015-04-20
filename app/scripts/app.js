@@ -70,7 +70,7 @@ var JournalDocument = React.createClass({
     var doc = this.props.doc;
     return (
 <div className="journalDocument">
-        <a href={doc.DOKBESKRIV_OJ.DOKVERSJON_OJ.VE_FILURL} className="cta--primary">{doc.DOKBESKRIV_OJ.DB_TITTEL}</a>
+        <a href={doc.DOKBESKRIV_OJ.DOKVERSJON_OJ.VE_FILURL} className="cta--primary" target="_blank">{doc.DOKBESKRIV_OJ.DB_TITTEL}</a>
 </div>
 
     );
