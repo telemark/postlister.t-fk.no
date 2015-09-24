@@ -6,7 +6,7 @@ Løsningen er laget for å koble seg mot et API som tilsvarer [tfk-api-journals]
 
 ## Avhengigheter
 
-Du må ha installert [Node.js](https://nodejs.org), [npm](https://www.npmjs.com/)(blir ofte installert sammen med Node.js), [gulp](http://gulpjs.com/) og [SASS](http://sass-lang.com/) på maskinen som skal bygge løsningen. 
+Du må ha installert [Node.js](https://nodejs.org), [npm](https://www.npmjs.com/)(blir ofte installert sammen med Node.js), [gulp](http://gulpjs.com/) og [Sass](http://sass-lang.com/) på maskinen som skal bygge løsningen. 
 Etter at byggescriptet er kjørt kan mappen **dist** hostes fra en hvilken som helst webserver.
 
 ## Installasjon
