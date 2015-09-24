@@ -25,7 +25,7 @@ $ npm run setup
 
 ## Konfigurasjon
 
-Åpne filen [/app/scripts/app.js](/app/scripts/app.js) i en fritt valgt editor.
+Åpne filen [/app/scripts/app.js](/app/scripts/app.js#L284) i en fritt valgt editor.
 Gå til linje 284 og endre ```<JournalsBox source="https://api.t-fk.no" />``` til å peke til din egen api-server
 
 ## Utvikling
