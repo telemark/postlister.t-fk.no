@@ -1,5 +1,7 @@
 # postlister.t-fk.no
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/telemark/postlister.t-fk.no.svg)](https://greenkeeper.io/)
+
 Frontendløsning for postlister.t-fk.no.
 
 Løsningen er laget for å koble seg mot et API som tilsvarer [tfk-api-journals](https://github.com/zrrrzzt/tfk-api-journals)  
